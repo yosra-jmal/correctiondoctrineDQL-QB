@@ -1,0 +1,45 @@
+
+
+
+    <h1>List books </h1>
+
+    <table align="center" border="1">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Publication date</th>
+                <th>Enabled</th>
+                <th>Author</th>
+                <th>Actions</th>
+
+            </tr>
+        </thead>
+        <tbody>
+        {% for book in books %}
+            <tr>
+                <td>{{ book.title }}</td>
+                <td>{{ book.publicationDate|date }}</td>
+             
+
+                    <td>{{ book.enabled }}</td>
+
+        
+
+                <td> {{book.author.username}} </td>
+                <td>
+                    <a href="{{ path('book_details', {'id': book.id}) }}">show</a>
+                    <a href="{{ path('book_edit', {'id': book.id}) }}">edit</a>
+                    <a href="{{ path('book_delete', {'id': book.id}) }}">delete</a>
+
+                </td>
+           
+            </tr>
+        {% else %}
+            <tr>
+                <td>no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('add_book') }}">Create new</a>
