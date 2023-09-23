@@ -7,6 +7,8 @@
     <h1>Author Details</h1>
     {% if author %}
         <p>username : {{ author.username }}</p>
+        <p>picture : <img  width='100'  src='{{ author.picture }}' alt="author picture" /> </p>
+
         <p>email : {{ author.email }}</p>
         <p>Number of books : {{ author.nb_books }}</p>
 
