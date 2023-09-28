@@ -2,13 +2,17 @@
 
 namespace App\Controller;
 
+use App\Entity\Author;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AuthorController extends AbstractController
 {
     public $authors = array(
+
 
         array(
             'id' => 1, 'picture' => '/images/Victor-Hugo.jpg',
@@ -68,5 +72,23 @@ class AuthorController extends AbstractController
             'author' => $author,
             'id' => $id
         ]);
+    }
+
+
+
+    #[Route('/addAuthor', name: 'add_author')]
+    public function addAuthor(ManagerRegistry $manager): Response
+    {
+        $em = $manager->getManager();
+
+        $author = new Author();
+
+        $author->setUsername("William Shakespeare");
+        $author->setEmail("william.shakespeare@gmail.com");;
+
+        $em->persist($author); //Persister l'entité Author pour la marquer en vue de son insertion dans la base de données
+        $em->flush();  // Appliquer les changements à la base de données en effectuant l'insertion réelle
+
+        return new Response("Author added successfully");
     }
 }
