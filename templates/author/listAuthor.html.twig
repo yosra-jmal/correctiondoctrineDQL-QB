@@ -1,0 +1,37 @@
+
+
+
+<h1 align="center">List authors </h1>
+
+<table align="center" border="1">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email date</th>
+        
+            <th>Actions</th>
+
+        </tr>
+    </thead>
+    <tbody>
+    {% for author in authors %}
+        <tr>
+            <td>{{ author.username }}</td>
+            <td>{{ author.email}}</td>
+        
+            <td>
+                <a href="{{ path('author_edit', {'id': author.id}) }}">edit</a>
+                <a href="{{ path('author_delete', {'id': author.id}) }}">delete</a>
+
+            </td>
+       
+        </tr>
+    {% else %}
+        <tr>
+            <td>no records found</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ path('add_author') }}">Create new</a>
