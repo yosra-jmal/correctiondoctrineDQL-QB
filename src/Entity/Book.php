@@ -7,14 +7,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Integer;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 class Book
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?int $ref = null;
 
     #[ORM\Column(length: 255)]
     private ?string $title = null;
@@ -24,14 +24,31 @@ class Book
 
     #[ORM\Column]
     private ?bool $enabled = null;
+    #[ORM\Column(length: 255)]
+    private ?string $category = null;
+
+
 
     #[ORM\ManyToMany(targetEntity: Reader::class, mappedBy: 'books')]
+
     private Collection $readers;
 
 
     #[ORM\ManyToOne(targetEntity: Author::class, inversedBy: "books")]
     #[ORM\JoinColumn(nullable: false)]
     private ?Author $author;
+
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?string $category)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
 
     public function getAuthor(): ?Author
     {
@@ -49,9 +66,14 @@ class Book
         $this->readers = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getRef(): ?int
     {
-        return $this->id;
+        return $this->ref;
+    }
+
+    public function setRef($ref)
+    {
+        return $this->ref = $ref;
     }
 
     public function getTitle(): ?string

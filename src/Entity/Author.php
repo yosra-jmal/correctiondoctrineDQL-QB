@@ -20,11 +20,22 @@ class Author
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
+    #[ORM\Column]
+    private ?int $nb_books = 0;
 
 
 
 
 
+    public function getNb_books(): ?int
+    {
+        return $this->nb_books;
+    }
+
+    public function setNb_books(?int $nb_books)
+    {
+        return $this->nb_books = $nb_books;
+    }
 
 
     public function getId(): ?int

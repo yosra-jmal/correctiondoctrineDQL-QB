@@ -1,46 +1,55 @@
+<h1 align="center">List books</h1>
 
+<table align="center" border="1">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Publication date</th>
+      <th>Published</th>
+      <th>Category</th>
 
+      <th>Author</th>
 
-    <h1 align="center">List books </h1>
+      <th>Actions</th>
+    </tr>
+  </thead>
 
-    <table align="center" border="1">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Publication date</th>
-                <th>Enabled</th>
-                <th>Author</th>
-                <th>Actions</th>
+  {% set nb_published = 0 %} {% set nb_unpublished = 0 %}
+  <tbody>
+    {% for book in books %} {% if book.enabled == true %} {% set nb_published=
+    nb_published +1 %} {% else %} {% set nb_unpublished = nb_unpublished + 1 %}
+    {% endif %} {% if book.enabled == true %}
+    <tr>
+      <td>{{ book.title }}</td>
+      <td>{{ book.publicationDate | date }}</td>
 
-            </tr>
-        </thead>
-        <tbody>
-        {% for book in books %}
-            <tr>
-                <td>{{ book.title }}</td>
-                <td>{{ book.publicationDate|date }}</td>
-             
+      <td>{{ book.enabled }}</td>
 
-                    <td>{{ book.enabled }}</td>
+      <td>{{ book.category }}</td>
 
-        
+      <td>{{ book.author.username }}</td>
 
-                <td> {{book.author.username}} </td>
-                <td>
-                    <a href="{{ path('book_details', {'id': book.id}) }}">show</a>
-                    <a href="{{ path('book_edit', {'id': book.id}) }}">edit</a>
-                    <a href="{{ path('book_delete', {'id': book.id}) }}">delete</a>
+      <td>
+        <a href="{{ path('book_details', { id: book.ref }) }}">show</a>
+        <a href="{{ path('book_edit', { id: book.ref }) }}">edit</a>
+        <a href="{{ path('book_delete', { id: book.ref }) }}">delete</a>
+      </td>
+    </tr>
 
-                </td>
-           
-            </tr>
-        {% else %}
-            <tr>
-                <td>no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    {% endif %} {% else %}
+    <tr>
+      <td>no records found</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 
+<br />
 
-    <a  href="{{ path('add_book') }}">Create new</a>
+<p>Number of books published : {{ nb_published }}</p>
+
+<p>Number of books unpublished : {{ nb_unpublished }}</p>
+
+<div align="center">
+  <button><a href="{{ path('add_book') }}">Create new</a></button>
+</div>

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Author;
 use App\Entity\Book;
 use App\Form\BookType;
 use App\Repository\BookRepository;
@@ -29,11 +30,20 @@ class BookController extends AbstractController
 
         $book = new Book();
 
+
+
         $form = $this->createForm(BookType::class, $book);
 
 
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
+
+            $book->setEnabled(true);
+            //Incrémentation nombre des livres pour chaque auteur
+            $nb =  $book->getAuthor()->getNb_books() + 1;
+            $book->getAuthor()->setNb_books($nb);
+            //---------------------------------------------------
+
 
 
             $em->persist($book);

@@ -159,9 +159,14 @@ class AuthorController extends AbstractController
     {
         $em = $manager->getManager();
         $author = $authorepository->find($id);
+        if ($author->getNb_books() == 0) {
 
-        $em->remove($author);
-        $em->flush();
+            $em->remove($author);
+            $em->flush();
+        } else {
+            return  $this->render('author/errorDelete.html.twig');
+        }
+
 
         return $this->redirectToRoute('list_author');
     }

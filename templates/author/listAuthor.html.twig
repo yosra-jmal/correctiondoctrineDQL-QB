@@ -7,8 +7,9 @@
     <thead>
         <tr>
             <th>Username</th>
-            <th>Email date</th>
-        
+            <th>Email</th>
+            <th>Number of books</th>
+
             <th>Actions</th>
 
         </tr>
@@ -18,7 +19,8 @@
         <tr>
             <td>{{ author.username }}</td>
             <td>{{ author.email}}</td>
-        
+            <td>{{ author.nb_books}}</td>
+
             <td>
                 <a href="{{ path('author_edit', {'id': author.id}) }}">edit</a>
                 <a href="{{ path('author_delete', {'id': author.id}) }}">delete</a>
