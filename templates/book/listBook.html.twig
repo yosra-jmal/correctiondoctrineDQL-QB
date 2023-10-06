@@ -16,23 +16,23 @@
 
   {% set nb_published = 0 %} {% set nb_unpublished = 0 %}
   <tbody>
-    {% for book in books %} {% if book.enabled == true %} {% set nb_published=
+    {% for book in books %} {% if book.published == true %} {% set nb_published=
     nb_published +1 %} {% else %} {% set nb_unpublished = nb_unpublished + 1 %}
-    {% endif %} {% if book.enabled == true %}
+    {% endif %} {% if book.published == true %}
     <tr>
       <td>{{ book.title }}</td>
       <td>{{ book.publicationDate | date }}</td>
 
-      <td>{{ book.enabled }}</td>
+      <td>{{ book.published }}</td>
 
       <td>{{ book.category }}</td>
 
       <td>{{ book.author.username }}</td>
 
       <td>
-        <a href="{{ path('book_details', { id: book.ref }) }}">show</a>
         <a href="{{ path('book_edit', { id: book.ref }) }}">edit</a>
         <a href="{{ path('book_delete', { id: book.ref }) }}">delete</a>
+        <a href="{{ path('book_details', { id: book.ref }) }}">show</a>
       </td>
     </tr>
 
@@ -46,9 +46,11 @@
 
 <br />
 
-<p>Number of books published : {{ nb_published }}</p>
+<div align="center">
+  <p>Number of books published : {{ nb_published }}</p>
 
-<p>Number of books unpublished : {{ nb_unpublished }}</p>
+  <p>Number of books unpublished : {{ nb_unpublished }}</p>
+</div>
 
 <div align="center">
   <button><a href="{{ path('add_book') }}">Create new</a></button>

@@ -38,7 +38,7 @@ class BookController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
 
-            $book->setEnabled(true);
+            $book->setPublished(true);
             //Incrémentation nombre des livres pour chaque auteur
             $nb =  $book->getAuthor()->getNb_books() + 1;
             $book->getAuthor()->setNb_books($nb);

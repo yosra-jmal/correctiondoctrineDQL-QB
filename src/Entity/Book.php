@@ -23,7 +23,7 @@ class Book
     private ?\DateTimeInterface $publicationDate = null;
 
     #[ORM\Column]
-    private ?bool $enabled = null;
+    private ?bool $published = null;
     #[ORM\Column(length: 255)]
     private ?string $category = null;
 
@@ -100,14 +100,14 @@ class Book
         return $this;
     }
 
-    public function isEnabled(): ?bool
+    public function getPublished(): ?bool
     {
-        return $this->enabled;
+        return $this->published;
     }
 
-    public function setEnabled(bool $enabled): static
+    public function setPublished(bool $published): static
     {
-        $this->enabled = $enabled;
+        $this->published = $published;
 
         return $this;
     }

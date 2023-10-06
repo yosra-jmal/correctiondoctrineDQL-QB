@@ -18,7 +18,7 @@ class BookType extends AbstractType
             ->add('ref')
             ->add('title')
             ->add('publicationDate')
-            ->add('enabled')
+            ->add('published')
             ->add('category', ChoiceType::class, [
                 'choices' => [
                     'Science Fiction' => 'Science Fiction',
@@ -33,7 +33,7 @@ class BookType extends AbstractType
                 'required' => true, // Set to true if the author selection is mandatory
 
             ])
-            ->add('Save', SubmitType::class);;
+            ->add('Save', SubmitType::class);;;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
