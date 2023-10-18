@@ -108,4 +108,19 @@ class BookController extends AbstractController
 
         return $this->redirectToRoute('list_book');
     }
+    //DQL: Question 1
+    #[Route('/NbrCategory')]
+    function NbrCategory(BookRepository $repo){
+        $nbr=$repo->NbBookCategory();
+        return $this->render('book/showNbrCategory.html.twig', [
+            'nbr' => $nbr,
+        ]);}
+    //DQL: Question 2
+    #[Route('/showBookTitle')]
+    function showTitleBook(BookRepository $repo){
+        $titles=$repo->findBookByPublicationDate();
+        return $this->render('book/showTitle.html.twig', [
+            'book' => $titles,
+        ]);
+    }
 }

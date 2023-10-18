@@ -45,4 +45,20 @@ class BookRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+// DQL
+//Question 1
+function NbBookCategory(){
+    $em=$this->getEntityManager();
+    return $em->createQuery('select count(b) from App\Entity\Book b WHERE b.category=:category')
+    ->setParameter('category','Science Fiction')->getSingleScalarResult();
+}
+//Question 2
+function findBookByPublicationDate(){
+    $em=$this->getEntityManager();
+    return $em->createQuery('select b from App\Entity\Book b WHERE 
+    b.publicationDate BETWEEN ?1 AND ?2')
+    ->setParameter(1,'2014-01-01')
+    ->setParameter(2,'2018-01-01')->getResult();
+}
+
 }

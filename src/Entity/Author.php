@@ -22,11 +22,6 @@ class Author
 
     #[ORM\Column]
     private ?int $nb_books = 0;
-
-
-
-
-
     public function getNb_books(): ?int
     {
         return $this->nb_books;

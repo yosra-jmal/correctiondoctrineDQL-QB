@@ -29,9 +29,6 @@ class AuthorController extends AbstractController
             'username' => ' Taha Hussein', 'email' => 'taha.hussein@gmail.com', 'nb_books' => 300
         ),
     );
-
-
-
     #[Route('/author', name: 'app_author')]
     public function index(): Response
     {
@@ -39,8 +36,6 @@ class AuthorController extends AbstractController
             'controller_name' => 'AuthorController',
         ]);
     }
-
-
     //Exercice 1 : Twig et Affichage d’une variable
     #[Route('/showauthor/{name}', name: 'show_author')]
     public function showAuthor($name)
@@ -49,8 +44,6 @@ class AuthorController extends AbstractController
             'name' => $name,
         ]);
     }
-
-
     // Exercice 2 : Manipulation du tableau associatif, filtre et Structure conditionnelle
     #[Route('/list', name: 'list_author')]
     public function list()
@@ -59,7 +52,6 @@ class AuthorController extends AbstractController
             'authors' => $this->authors,
         ]);
     }
-
     #[Route('/author/{id}', name: 'author_details')]
     public function authorDetails($id)
     {
@@ -75,9 +67,6 @@ class AuthorController extends AbstractController
             'id' => $id
         ]);
     }
-
-
-
     #[Route('/addStatic', name: 'add_author')]
     public function addAuthorStatic(ManagerRegistry $manager): Response
     {
@@ -93,9 +82,6 @@ class AuthorController extends AbstractController
 
         return new Response("Author added successfully");
     }
-
-
-
     #[Route('/addAuthor', name: 'add_author')]
     public function addAuthor(ManagerRegistry $manager, Request $request): Response
     {
@@ -104,35 +90,22 @@ class AuthorController extends AbstractController
         $author = new Author();
 
         $form = $this->createForm(AuthorType::class, $author);
-
-
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
-
-
             $em->persist($author);
             $em->flush();
 
             return $this->redirectToRoute('list_author');
         }
-
-
         return $this->renderForm('author/addAuthor.html.twig', ['form' => $form]);
     }
-
-
-
     #[Route('/listAuthor', name: 'list_author')]
     public function listAuthor(AuthorRepository $authorepository): Response
     {
-
         return $this->render('author/listAuthor.html.twig', [
             'authors' => $authorepository->findAll(),
         ]);
     }
-
-
-
     #[Route('/editAuthor/{id}', name: 'author_edit')]
     public function editAuthor(Request $request, ManagerRegistry $manager, $id, AuthorRepository $authorepository): Response
     {
@@ -147,27 +120,38 @@ class AuthorController extends AbstractController
             $em->flush();
             return $this->redirectToRoute('list_author');
         }
-
         return $this->renderForm('author/editAuthor.html.twig', [
             'author' => $author,
             'form' => $form,
         ]);
     }
-
     #[Route('/deleteauthor/{id}', name: 'author_delete')]
     public function deleteAuthor(Request $request, $id, ManagerRegistry $manager, AuthorRepository $authorepository): Response
     {
         $em = $manager->getManager();
         $author = $authorepository->find($id);
         if ($author->getNb_books() == 0) {
-
             $em->remove($author);
             $em->flush();
         } else {
             return  $this->render('author/errorDelete.html.twig');
         }
-
-
+        return $this->redirectToRoute('list_author');
+    }
+    //DQL: Question 3
+    #[Route('/RechercheDQL', name:'Search')]
+    function RechercheDQL(AuthorRepository $repo,Request $request){
+        $min=$request->get('min');
+        $max=$request->get('max');
+        $author=$repo->SearchAuthorDQL($min,$max);
+        return $this->render('author/listAuthor.html.twig', [
+            'authors' => $author,
+        ]);
+    }
+    //DQL: Question 4
+    #[Route('/DeleteDQL', name:'DD')]
+    function DeleteDQL(AuthorRepository $repo){
+        $repo->DeleteAuthor();
         return $this->redirectToRoute('list_author');
     }
 }
