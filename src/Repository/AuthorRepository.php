@@ -45,6 +45,17 @@ class AuthorRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+//Query Builder: Question 1
+public function showAllAuthorsOrderByEmail()
+    {
+        return $this->createQueryBuilder('a')
+            ->orderBy('a.email','DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //DQL Question 3
 function SearchAuthorDQL($min,$max){
     $em=$this->getEntityManager();

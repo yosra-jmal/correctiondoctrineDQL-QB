@@ -45,6 +45,71 @@ class BookRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+//Query Builder: Question 2
+    public function showAllBooksByAuthor($title)
+        {
+            return $this->createQueryBuilder('b')
+                ->join('b.author','a')
+                ->addSelect('a')
+                ->where('b.title LIKE :title')
+                ->setParameter('title', '%'.$title.'%')
+                ->getQuery()
+                ->getResult()
+            ;
+        }
+//Query Builder: Question 3
+        public function showAllBooksByAuthor2()
+    {
+        return $this->createQueryBuilder('b')
+            ->join('b.author','a')
+            ->addSelect('a')
+            ->orderBy('b.title','ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+//Query Builder: Question 4
+    public function showAllBooksAndAuthorByDateAndNbBooks($nbooks,$year)
+    {
+        return $this->createQueryBuilder('b')
+            ->join('b.author','a')
+            ->addSelect('a')
+            ->where('a.nb_books > :nbooks')
+            ->andWhere("b.publicationDate < :year")
+            ->setParameter('nbooks',$nbooks)
+            ->setParameter('year',$year)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+//Query Builder: Question 5
+    public function updateBooksCategoryByAuthor($authorUsername, $newCategory)
+    {
+        // Step 1: Fetch the entities that need to be updated
+        $books = $this->createQueryBuilder('b')
+            ->join('b.author', 'a')
+            ->where('a.username LIKE :username')
+            ->setParameter('username', '%'.$authorUsername.'%')
+            ->getQuery()
+            ->getResult();
+        dump($books);
+        // Step 2: Apply the updates
+        foreach ($books as $book) {
+            $book->setCategory($newCategory);
+        }
+
+        // Flush the changes
+        $this->getEntityManager()->flush();
+
+        return $books
+    ;
+    }
+
+
+
 // DQL
 //Question 1
 function NbBookCategory(){

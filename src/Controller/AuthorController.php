@@ -154,4 +154,14 @@ class AuthorController extends AbstractController
         $repo->DeleteAuthor();
         return $this->redirectToRoute('list_author');
     }
+
+    //Query Builder: Question 1
+    //http://localhost:8000/author/list/OrderByEmail
+    #[Route('/author/list/OrderByEmail', name: 'app_author_list_ordered', methods: ['GET'])]
+    public function listAuthorOrderByEmail(AuthorRepository $authorRepository): Response
+    {
+        return $this->render('author/orderedList.html.twig', [
+            'authors' => $authorRepository->showAllAuthorsOrderByEmail(),
+        ]);
+    }
 }

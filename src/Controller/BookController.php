@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Author;
 use App\Entity\Book;
 use App\Form\BookType;
+use App\Form\SearchBookType;
 use App\Repository\BookRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -121,6 +122,66 @@ class BookController extends AbstractController
         $titles=$repo->findBookByPublicationDate();
         return $this->render('book/showTitle.html.twig', [
             'book' => $titles,
+        ]);
+    }
+    //Query Builder: Question 2
+    //http://localhost:8000/book/list/search
+    #[Route('/book/list/search', name: 'app_book_search', methods: ['GET','POST'])]
+    public function searchBook(Request $request,BookRepository $bookRepository): Response
+    {   $book=new Book();
+        $form=$this->createForm(SearchBookType::class,$book);
+        $form->handleRequest($request);
+        if($form->isSubmitted()){
+            return $this->render('book/listSearch.html.twig', [
+                'books' => $bookRepository->showAllBooksByAuthor($book->getTitle()),
+                'f'=>$form->createView()
+            ]);
+        }
+        return $this->render('book/listSearch.html.twig', [
+            'books' => $bookRepository->findAll(),
+            'f'=>$form->createView()
+        ]);
+    }
+
+    //Query Builder: Question 3
+    //http://localhost:8000/book/list/author
+    #[Route('/book/list/author', name: 'app_book_list_author', methods: ['GET'])]
+    public function showOrdredBooksByAuthor(Request $request,BookRepository $bookRepository): Response
+    {   if($request->get('title')){
+        return $this->render('book/listBookAuthor.html.twig', [
+            'books' => $bookRepository->showAllBooksByAuthor($request->get('title')),
+        ]);
+        }
+        return $this->render('book/listBookAuthor.html.twig', [
+            'books' => $bookRepository->showAllBooksByAuthor2(),
+        ]);
+    }
+    //Query Builder: Question 4
+    //http://localhost:8000/book/list/author/search/2023-01-01/35
+    #[Route('/book/list/author/search/{date}/{nbBooks}', name: 'app_book_list_author', methods: ['GET'])]
+    public function showBooksByDateAndNbBooks($date,$nbBooks,Request $request,BookRepository $bookRepository): Response
+    {   if($request->get('title')){
+        return $this->render('book/listBookDateNbBooks.html.twig', [
+            'books' => $bookRepository->showAllBooksByAuthor($request->get('title')),
+        ]);
+        }
+        return $this->render('book/listBookDateNbBooks.html.twig', [
+            'books' => $bookRepository->showAllBooksAndAuthorByDateAndNbBooks($nbBooks,$date),
+        ]);
+    }
+
+    //Query Builder: Question 5
+    //http://localhost:8000/book/list/author/update/William%20Shakespeare/Romance
+    #[Route('/book/list/author/update/{username}/{category}', name: 'app_book_list_author', methods: ['GET'])]
+    public function updateBooksCategoryByAuthor($username,$category,Request $request,BookRepository $bookRepository): Response
+    {   
+        if($request->get('title')){
+        return $this->render('book/listBookAuthor.html.twig', [
+            'books' => $bookRepository->showAllBooksByAuthor($request->get('title')),
+        ]);
+        }
+        return $this->render('book/listBookAuthor.html.twig', [
+            'books' => $bookRepository->updateBooksCategoryByAuthor($username,$category),
         ]);
     }
 }
