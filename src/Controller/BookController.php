@@ -158,7 +158,7 @@ class BookController extends AbstractController
     }
     //Query Builder: Question 4
     //http://localhost:8000/book/list/author/search/2023-01-01/35
-    #[Route('/book/list/author/search/{date}/{nbBooks}', name: 'app_book_list_author', methods: ['GET'])]
+    #[Route('/book/list/author/search/{date}/{nbBooks}', name: 'app_book_list_autho_date', methods: ['GET'])]
     public function showBooksByDateAndNbBooks($date,$nbBooks,Request $request,BookRepository $bookRepository): Response
     {   if($request->get('title')){
         return $this->render('book/listBookDateNbBooks.html.twig', [
@@ -172,7 +172,7 @@ class BookController extends AbstractController
 
     //Query Builder: Question 5
     //http://localhost:8000/book/list/author/update/William%20Shakespeare/Romance
-    #[Route('/book/list/author/update/{username}/{category}', name: 'app_book_list_author', methods: ['GET'])]
+    #[Route('/book/list/author/update/{username}/{category}', name: 'app_book_list_author_update', methods: ['GET'])]
     public function updateBooksCategoryByAuthor($username,$category,Request $request,BookRepository $bookRepository): Response
     {   
         if($request->get('title')){

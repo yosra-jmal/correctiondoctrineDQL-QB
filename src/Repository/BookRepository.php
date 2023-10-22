@@ -95,7 +95,6 @@ class BookRepository extends ServiceEntityRepository
             ->setParameter('username', '%'.$authorUsername.'%')
             ->getQuery()
             ->getResult();
-        dump($books);
         // Step 2: Apply the updates
         foreach ($books as $book) {
             $book->setCategory($newCategory);
