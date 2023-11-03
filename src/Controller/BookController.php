@@ -131,6 +131,7 @@ class BookController extends AbstractController
     {   $book=new Book();
         $form=$this->createForm(SearchBookType::class,$book);
         $form->handleRequest($request);
+        
         if($form->isSubmitted()){
             return $this->render('book/listSearch.html.twig', [
                 'books' => $bookRepository->showAllBooksByAuthor($book->getTitle()),
